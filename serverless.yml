@@ -1,0 +1,52 @@
+service: s3-upload-optimization
+provider:
+  name: aws
+  
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+        - "s3:ListBucket"
+        - "s3:GetObject"
+        - "s3:PutObjectAcl"
+      Resource: "*"
+  runtime: nodejs14.x
+  stage: dev
+  region: ap-south-1
+  profile: sandbox
+  environment:
+    excel_upload_bucket: excel-upload-bucket-${self:provider.stage}
+    
+plugins:
+  - serverless-offline
+
+
+functions:
+  s3-excel-upload:
+    handler: main.handler
+    timeout: 300
+    events:
+      - http: ANY /
+      - http: 'ANY {proxy+}'
+
+resources:
+  Resources:
+    excelUploadBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: excel-upload-bucket-${self:provider.stage}
+        AccessControl: PublicRead
+        # Set the CORS policy
+        CorsConfiguration:
+          CorsRules:
+            - AllowedOrigins:
+                - "*"
+              AllowedHeaders:
+                - "*"
+              AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - DELETE
+                - HEAD
+              MaxAge: 3000

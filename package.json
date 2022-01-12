@@ -1,0 +1,22 @@
+{
+  "name": "s3-upload-optimization",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "module": "node",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1054.0",
+    "express": "^4.17.2",
+    "fake-file-generator": "^1.1.1",
+    "serverless-http": "^2.7.0"
+  },
+  "devDependencies": {
+    "serverless-offline": "^8.3.1"
+  }
+}
